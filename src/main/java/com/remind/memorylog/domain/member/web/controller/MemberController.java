@@ -2,6 +2,7 @@ package com.remind.memorylog.domain.member.web.controller;
 
 import com.remind.memorylog.domain.member.service.MemberService;
 import com.remind.memorylog.domain.member.web.dto.SignInRequest;
+import com.remind.memorylog.domain.member.web.dto.SignInResponse;
 import com.remind.memorylog.domain.member.web.dto.SignUpRequest;
 import com.remind.memorylog.global.response.SuccessResponse;
 import jakarta.validation.Valid;
@@ -37,10 +38,10 @@ public class MemberController {
     public ResponseEntity<SuccessResponse<?>> signin(@RequestBody @Valid SignInRequest signInRequest) {
 
         // 서비스 계층 위임
-        memberService.signin(signInRequest);
+        SignInResponse signInResponse = memberService.signin(signInRequest);
 
         // 반환
-        return ResponseEntity.status(HttpStatus.OK).body(SuccessResponse.empty());
+        return ResponseEntity.status(HttpStatus.OK).body(SuccessResponse.ok(signInResponse));
 
     }
 }

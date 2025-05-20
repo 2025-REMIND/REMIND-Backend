@@ -5,6 +5,7 @@ import com.remind.memorylog.domain.member.entity.Member;
 import com.remind.memorylog.domain.member.exception.*;
 import com.remind.memorylog.domain.member.repository.MemberRepository;
 import com.remind.memorylog.domain.member.web.dto.SignInRequest;
+import com.remind.memorylog.domain.member.web.dto.SignInResponse;
 import com.remind.memorylog.domain.member.web.dto.SignUpRequest;
 import com.sun.jdi.request.DuplicateRequestException;
 import lombok.RequiredArgsConstructor;
@@ -66,7 +67,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     @Override
-    public void signin(SignInRequest signInRequest) {
+    public SignInResponse signin(SignInRequest signInRequest) {
 
         // 1. ID 존재 여부 확인
         Member member = memberRepository.findByLoginId(signInRequest.getId())
@@ -76,6 +77,9 @@ public class MemberServiceImpl implements MemberService {
         if (!member.getLoginPwd().equals(signInRequest.getPassword())) {
             throw new PasswordMismatchException();
         }
+
+        // 3. 사용자 기본키 반환
+        return new SignInResponse(member.getMemberId());
 
     }
 }
