@@ -33,11 +33,6 @@ public class MemberServiceImpl implements MemberService {
             throw new InvalidIdPatternException(); // SIGNUP_400_1
         }
 
-        // 아이디 글자수 검증
-        if (signUpRequest.getId().length() < 4 || signUpRequest.getId().length() > 10) {
-            throw new InvalidIdLengthException(); // SIGNUP_400_2
-        }
-
         // 아이디 중복 검증
         if (memberRepository.existsByLoginId(signUpRequest.getId())) {
             throw new UserAlreadyExistException();  // 네가 만든 커스텀 예외

@@ -10,7 +10,6 @@ public enum MemberErrorCode implements BaseResponseCode {
 
     // 회원가입
     INVALID_ID_PATTERN("SIGNUP_400_1", 400, "영문과 숫자를 조합해주세요."),
-    INVALID_ID_LENGTH("SIGNUP_400_2", 400, "4자~10자 이내로 작성해주세요."),
     USER_ALREADY_EXIST_409("SIGNUP_400_3", 400, "아이디가 중복됩니다."),
     INVALID_PASSWORD_PATTERN("SIGNUP_400_4", 400, "영문과 숫자를 조합해주세요."),
     INVALID_PASSWORD_LENGTH("SIGNUP_400_5", 400, "4자~10자 이내로 작성해주세요."),
