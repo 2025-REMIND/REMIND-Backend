@@ -7,7 +7,6 @@ import com.remind.memorylog.domain.member.repository.MemberRepository;
 import com.remind.memorylog.domain.member.web.dto.SignInRequest;
 import com.remind.memorylog.domain.member.web.dto.SignInResponse;
 import com.remind.memorylog.domain.member.web.dto.SignUpRequest;
-import com.sun.jdi.request.DuplicateRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +40,7 @@ public class MemberServiceImpl implements MemberService {
 
         // 아이디 중복 검증
         if (memberRepository.existsByLoginId(signUpRequest.getId())) {
-            throw new DuplicatedIdException();  // 네가 만든 커스텀 예외
+            throw new UserAlreadyExistException();  // 네가 만든 커스텀 예외
         }
 
         // 비밀번호 양식 검증 (영문자/숫자만)
