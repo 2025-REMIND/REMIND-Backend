@@ -55,7 +55,7 @@ public class MemberServiceImpl implements MemberService {
 
         // 비밀번호 아이디 동일여부 검증
         if(signUpRequest.getId().equals(signUpRequest.getPassword())) {
-            throw new InvalidIdPasswordSameException();
+            throw new UserIdPasswordSameException();
         }
 
         // 2. repository에 Member 저장 (memberRepository 사용)
