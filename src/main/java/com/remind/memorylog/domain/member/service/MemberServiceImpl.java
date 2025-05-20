@@ -4,6 +4,7 @@ package com.remind.memorylog.domain.member.service;
 import com.remind.memorylog.domain.member.entity.Member;
 import com.remind.memorylog.domain.member.exception.*;
 import com.remind.memorylog.domain.member.repository.MemberRepository;
+import com.remind.memorylog.domain.member.web.dto.SignInRequest;
 import com.remind.memorylog.domain.member.web.dto.SignUpRequest;
 import com.sun.jdi.request.DuplicateRequestException;
 import lombok.RequiredArgsConstructor;
@@ -60,6 +61,21 @@ public class MemberServiceImpl implements MemberService {
         // 2. repository에 Member 저장 (memberRepository 사용)
         memberRepository.save(member);
 
+
+    }
+
+    @Transactional
+    @Override
+    public void signin(SignInRequest signInRequest) {
+
+        // 1. ID 존재 여부 확인
+        Member member = memberRepository.findByLoginId(signInRequest.getId())
+                .orElseThrow(IdMismatchException::new);
+
+        // 2. 비밀번호 일치 여부 검증
+        if (!member.getLoginPwd().equals(signInRequest.getPassword())) {
+            throw new PasswordMismatchException();
+        }
 
     }
 }
