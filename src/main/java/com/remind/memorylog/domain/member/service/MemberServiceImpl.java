@@ -38,11 +38,6 @@ public class MemberServiceImpl implements MemberService {
             throw new InvalidPasswordPatternException();
         }
 
-        // 비밀번호 글자수 검증
-        if (signUpRequest.getPassword().length() < 4 || signUpRequest.getPassword().length() > 10) {
-            throw new InvalidPasswordLengthException();
-        }
-
         // 비밀번호 아이디 동일여부 검증
         if(signUpRequest.getId().equals(signUpRequest.getPassword())) {
             throw new UserIdPasswordSameException();
