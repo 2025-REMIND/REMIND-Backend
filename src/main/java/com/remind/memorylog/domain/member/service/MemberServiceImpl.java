@@ -28,11 +28,6 @@ public class MemberServiceImpl implements MemberService {
                 .build();
 
 
-        // 아이디 양식 검증 (영문자/숫자만)
-        if (!signUpRequest.getId().matches("^[a-zA-Z0-9]+$")) {
-            throw new InvalidIdPatternException(); // SIGNUP_400_1
-        }
-
         // 아이디 중복 검증
         if (memberRepository.existsByLoginId(signUpRequest.getId())) {
             throw new UserAlreadyExistException();  // 네가 만든 커스텀 예외
