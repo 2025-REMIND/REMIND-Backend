@@ -33,11 +33,6 @@ public class MemberServiceImpl implements MemberService {
             throw new UserAlreadyExistException();  // 네가 만든 커스텀 예외
         }
 
-        // 비밀번호 양식 검증 (영문자/숫자만)
-        if (!signUpRequest.getPassword().matches("^[a-zA-Z0-9]+$")) {
-            throw new InvalidPasswordPatternException();
-        }
-
         // 비밀번호 아이디 동일여부 검증
         if(signUpRequest.getId().equals(signUpRequest.getPassword())) {
             throw new UserIdPasswordSameException();
