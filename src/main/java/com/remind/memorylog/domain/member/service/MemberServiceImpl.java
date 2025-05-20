@@ -27,7 +27,6 @@ public class MemberServiceImpl implements MemberService {
                 .loginPwd(signUpRequest.getPassword())
                 .build();
 
-
         // 아이디 중복 검증
         if (memberRepository.existsByLoginId(signUpRequest.getId())) {
             throw new UserAlreadyExistException();  // 네가 만든 커스텀 예외
