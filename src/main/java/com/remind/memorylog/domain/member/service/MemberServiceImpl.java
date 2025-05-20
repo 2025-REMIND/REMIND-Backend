@@ -8,6 +8,7 @@ import com.remind.memorylog.domain.member.web.dto.SignInRequest;
 import com.remind.memorylog.domain.member.web.dto.SignInResponse;
 import com.remind.memorylog.domain.member.web.dto.SignUpRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,17 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     // 회원 가입
     @Transactional
     @Override
     public void signup(SignUpRequest signUpRequest) {
-
-        // 1. signUpRequest가지고 Member Entity 생성
-        Member member = Member.builder()
-                .loginId(signUpRequest.getId())
-                .loginPwd(signUpRequest.getPassword())
-                .build();
 
         // 아이디 중복 검증
         if (memberRepository.existsByLoginId(signUpRequest.getId())) {
@@ -37,7 +33,18 @@ public class MemberServiceImpl implements MemberService {
             throw new UserIdPasswordSameException();
         }
 
-        // 2. repository에 Member 저장 (memberRepository 사용)
+        // 비밀번호 암호화
+        String hashed = passwordEncoder.encode(signUpRequest.getPassword());
+
+        // Member Entity 생성
+        Member member = Member.builder()
+                .loginId(signUpRequest.getId())
+                .loginPwd(hashed)
+                .build();
+
+
+
+        // repository에 Member 저장 (memberRepository 사용)
         memberRepository.save(member);
 
 
