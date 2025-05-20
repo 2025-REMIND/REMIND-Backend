@@ -14,7 +14,7 @@ public enum MemberErrorCode implements BaseResponseCode {
 
 
     // 로그인
-    ID_MISMATCH("SIGNIN_400_1", 400, "아이디가 일치하지 않습니다."),
+    USER_NOT_FOUND("SIGNIN_400_1", 400, "아이디가 일치하지 않습니다."),
     PASSWORD_MISMATCH("SIGNIN_400_2", 400, "비밀번호가 일치하지 않습니다.");
 
 

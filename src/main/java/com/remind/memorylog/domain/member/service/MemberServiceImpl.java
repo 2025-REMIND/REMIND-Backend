@@ -56,7 +56,7 @@ public class MemberServiceImpl implements MemberService {
 
         // 1. ID 존재 여부 확인
         Member member = memberRepository.findByLoginId(signInRequest.getId())
-                .orElseThrow(IdMismatchException::new);
+                .orElseThrow(UserNotFoundException::new);
 
         // 2. 비밀번호 일치 여부 검증
         if (!member.getLoginPwd().equals(signInRequest.getPassword())) {
