@@ -3,6 +3,7 @@ package com.remind.memorylog.domain.diary.web.controller;
 import com.remind.memorylog.domain.diary.service.DiaryService;
 import com.remind.memorylog.domain.diary.service.S3Uploader;
 import com.remind.memorylog.domain.diary.web.dto.DiaryRequest;
+import com.remind.memorylog.domain.diary.web.dto.DiaryResponse;
 import com.remind.memorylog.global.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,8 +49,9 @@ public class DiaryController {
             log.warn("이미지 업로드 실패: {}", e.getMessage());
         }
 
-        diaryService.record(diaryRequest, imageUrl);
-        return ResponseEntity.status(HttpStatus.OK).body(SuccessResponse.empty());
+
+        DiaryResponse diaryResponse = diaryService.record(diaryRequest, imageUrl);
+        return ResponseEntity.status(HttpStatus.OK).body(SuccessResponse.ok(diaryResponse));
     }
 }
 

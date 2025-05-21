@@ -9,6 +9,8 @@ import com.remind.memorylog.domain.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.remind.memorylog.domain.diary.web.dto.DiaryResponse;
+
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +20,7 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Transactional
     @Override
-    public void record(DiaryRequest diaryRequest, String imageUrl) {
+    public DiaryResponse record(DiaryRequest diaryRequest, String imageUrl) {
 
         // 회원 존재 확인
         Member member = memberRepository.findById(diaryRequest.getMemberId())
@@ -34,6 +36,17 @@ public class DiaryServiceImpl implements DiaryService {
 
         // 기억기록 저장
         diaryRepository.save(diary);
+
+
+        return new DiaryResponse(
+                diary.getDiaryId(),
+                member.getMemberId(),
+                diary.getContent(),
+                diary.getSong(),
+                diary.getImageUrl(),
+                diary.getCreatedAt()
+        );
+
 
     }
 }
