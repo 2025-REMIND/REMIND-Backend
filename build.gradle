@@ -34,7 +34,7 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
 	// BcryptPasswordEncoder 사용하기 위한 Spring Security를 받아야 한다.
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.security:spring-security-crypto'
 }
 
 tasks.named('test') {
