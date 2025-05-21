@@ -17,5 +17,4 @@ public class DiaryResponse {
     private String content;
     private String song;
     private String imageUrl;
-    private LocalDateTime createdAt;
 }

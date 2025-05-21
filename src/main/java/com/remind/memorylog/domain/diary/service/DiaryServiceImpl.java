@@ -43,8 +43,7 @@ public class DiaryServiceImpl implements DiaryService {
                 member.getMemberId(),
                 diary.getContent(),
                 diary.getSong(),
-                diary.getImageUrl(),
-                diary.getCreatedAt()
+                diary.getImageUrl()
         );
 
 
