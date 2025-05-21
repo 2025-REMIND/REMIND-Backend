@@ -2,14 +2,14 @@ package com.remind.memorylog.domain.diary.service;
 
 import com.remind.memorylog.domain.diary.entity.Diary;
 import com.remind.memorylog.domain.diary.repository.DiaryRepository;
-import com.remind.memorylog.domain.diary.web.dto.DiaryRequest;
+import com.remind.memorylog.domain.diary.web.dto.DiaryRecordRequest;
 import com.remind.memorylog.domain.member.entity.Member;
 import com.remind.memorylog.domain.member.exception.UserNotFoundException;
 import com.remind.memorylog.domain.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import com.remind.memorylog.domain.diary.web.dto.DiaryResponse;
+import com.remind.memorylog.domain.diary.web.dto.DiaryRecordResponse;
 
 
 @Service
@@ -20,7 +20,7 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Transactional
     @Override
-    public DiaryResponse recordMemory(DiaryRequest diaryRequest, String imageUrl) {
+    public DiaryRecordResponse recordMemory(DiaryRecordRequest diaryRequest, String imageUrl) {
 
         // 회원 존재 확인
         Member member = memberRepository.findById(diaryRequest.getMemberId())
@@ -38,7 +38,7 @@ public class DiaryServiceImpl implements DiaryService {
         diaryRepository.save(diary);
 
 
-        return new DiaryResponse(
+        return new DiaryRecordResponse(
                 diary.getDiaryId(),
                 member.getMemberId(),
                 diary.getContent(),

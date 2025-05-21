@@ -5,13 +5,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DiaryResponse {
+public class DiaryRecordResponse {
     private Long diaryId;
     private Long memberId;
     private String content;

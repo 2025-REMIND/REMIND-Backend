@@ -1,3 +1,4 @@
+
 package com.remind.memorylog.domain.diary.web.dto;
 
 import jakarta.validation.constraints.NotNull;
@@ -8,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class DiaryRequest {
+public class DiaryRecordRequest {
     @NotNull(message = "회원 Id를 함께 보내주세요")
     private Long memberId;
 
@@ -18,7 +19,7 @@ public class DiaryRequest {
 
     private String song; // 노래
 
-    public DiaryRequest(Long memberId, String content, String song) {
+    public DiaryRecordRequest(Long memberId, String content, String song) {
         this.memberId = memberId;
         this.content = content;
         this.song = song;

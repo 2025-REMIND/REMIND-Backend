@@ -1,8 +1,8 @@
 package com.remind.memorylog.domain.diary.service;
 
-import com.remind.memorylog.domain.diary.web.dto.DiaryRequest;
-import com.remind.memorylog.domain.diary.web.dto.DiaryResponse;
+import com.remind.memorylog.domain.diary.web.dto.DiaryRecordRequest;
+import com.remind.memorylog.domain.diary.web.dto.DiaryRecordResponse;
 
 public interface DiaryService {
-    DiaryResponse recordMemory(DiaryRequest diaryRequest, String imageUrl);
+    DiaryRecordResponse recordMemory(DiaryRecordRequest diaryRequest, String imageUrl);
 }
