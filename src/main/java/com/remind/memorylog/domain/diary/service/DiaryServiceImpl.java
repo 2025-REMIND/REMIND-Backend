@@ -20,7 +20,7 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Transactional
     @Override
-    public DiaryResponse record(DiaryRequest diaryRequest, String imageUrl) {
+    public DiaryResponse recordMemory(DiaryRequest diaryRequest, String imageUrl) {
 
         // 회원 존재 확인
         Member member = memberRepository.findById(diaryRequest.getMemberId())

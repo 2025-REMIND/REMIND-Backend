@@ -4,5 +4,5 @@ import com.remind.memorylog.domain.diary.web.dto.DiaryRequest;
 import com.remind.memorylog.domain.diary.web.dto.DiaryResponse;
 
 public interface DiaryService {
-    DiaryResponse record(DiaryRequest diaryRequest, String imageUrl);
+    DiaryResponse recordMemory(DiaryRequest diaryRequest, String imageUrl);
 }

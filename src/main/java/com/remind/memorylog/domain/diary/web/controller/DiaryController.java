@@ -50,7 +50,7 @@ public class DiaryController {
         }
 
 
-        DiaryResponse diaryResponse = diaryService.record(diaryRequest, imageUrl);
+        DiaryResponse diaryResponse = diaryService.recordMemory(diaryRequest, imageUrl);
         return ResponseEntity.status(HttpStatus.OK).body(SuccessResponse.ok(diaryResponse));
     }
 }
