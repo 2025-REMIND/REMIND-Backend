@@ -1,4 +1,3 @@
-
 package com.remind.memorylog.domain.diary.web.dto;
 
 import jakarta.validation.constraints.NotNull;
@@ -13,9 +12,8 @@ public class DiaryRecordRequest {
     @NotNull(message = "회원 Id를 함께 보내주세요")
     private Long memberId;
 
-    // 이미지 url 삭제
-
     private String content; // 본문
 
     private String song; // 노래
+
 }
