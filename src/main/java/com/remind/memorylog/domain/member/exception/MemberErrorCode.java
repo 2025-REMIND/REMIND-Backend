@@ -9,7 +9,7 @@ import lombok.Getter;
 public enum MemberErrorCode implements BaseResponseCode {
 
     // 회원가입
-    USER_ALREADY_EXIST_409("SIGNUP_400_3", 400, "아이디가 중복됩니다."),
+    USER_ALREADY_EXIST_409("SIGNUP_409_1", 409, "아이디가 중복됩니다."),
     USER_ID_PASSWORD_SAME("SIGNUP_400_6", 400, "아이디와 비밀번호는 동일할 수 없습니다."),
 
 
