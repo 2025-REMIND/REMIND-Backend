@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import com.remind.memorylog.domain.member.exception.UserNotFoundException;
 
 import java.io.IOException;
 
@@ -26,10 +27,14 @@ public class DiaryController {
     // 기억 기록
     @PostMapping(value = "/diary", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<SuccessResponse<?>> recordDiary(
-            @RequestParam Long memberId,
+            @RequestParam(required = false) Long memberId,
             @RequestParam(required = false) String content,
             @RequestParam(required = false) String song,
             @RequestPart(value = "image", required = false) MultipartFile image) {
+
+        if (memberId == null) {
+            throw new UserNotFoundException(); // 클라이언트가 memerId를 안넘겼을 때 에러처리
+        }
 
         // DiaryRequest 객체 생성해서 넘기기
         DiaryRequest diaryRequest = new DiaryRequest(memberId, content, song);
