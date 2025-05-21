@@ -59,7 +59,7 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(UserNotFoundException::new);
 
         // 2. 비밀번호 일치 여부 검증
-        if (!member.getLoginPwd().equals(signInRequest.getPassword())) {
+        if (!passwordEncoder.matches(signInRequest.getPassword(), member.getLoginPwd())) {
             throw new PasswordMismatchException();
         }
 
