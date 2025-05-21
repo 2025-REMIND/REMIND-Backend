@@ -6,6 +6,7 @@ import com.remind.memorylog.domain.diary.service.S3Uploader;
 import com.remind.memorylog.domain.diary.web.dto.DiaryRecordRequest;
 import com.remind.memorylog.domain.diary.web.dto.DiaryRecordResponse;
 import com.remind.memorylog.global.response.SuccessResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,34 +19,30 @@ import java.io.IOException;
 
 @Slf4j
 @RestController
-@RequestMapping
+@RequestMapping("/diary") // diary 관련 컨트롤러는 묶어주기
 @RequiredArgsConstructor
 public class DiaryController {
     // 의존성 부여
     private final DiaryService diaryService;
-    private final S3Uploader s3Uploader;
 
     // 기억 기록
-    @PostMapping(value = "/diary", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<SuccessResponse<?>> recordDiary(
-            @RequestParam Long memberId,
-            @RequestParam(required = false) String content,
-            @RequestParam(required = false) String song,
-            @RequestPart(value = "image", required = false) MultipartFile image) {
+            @RequestPart("data") @Valid DiaryRecordRequest diaryRecordRequest,
+            @RequestPart(value = "image") MultipartFile image) throws IOException {
 
-        // DiaryRequest 객체 생성해서 넘기기
-        DiaryRecordRequest diaryRequest = new DiaryRecordRequest(memberId, content, song);
 
-        String imageUrl = null;
-        try {
-            if (image != null && !image.isEmpty()) {
-                imageUrl = s3Uploader.upload(image, "diary");
-            }
-        } catch (IOException e) {
-            log.warn("이미지 업로드 실패: {}", e.getMessage());
-        }
+        // 아래 로직은 서비스 코드에서 처리하는 게 적절
+//        String imageUrl = null;
+//        try {
+//            if (image != null && !image.isEmpty()) {
+//                imageUrl = s3Uploader.upload(image, "diary");
+//            }
+//        } catch (IOException e) {
+//            log.warn("이미지 업로드 실패: {}", e.getMessage());
+//        }
 
-        DiaryRecordResponse diaryResponse = diaryService.recordMemory(diaryRequest, imageUrl);
+        DiaryRecordResponse diaryResponse = diaryService.recordMemory(diaryRecordRequest, image);
         return ResponseEntity.status(HttpStatus.OK).body(SuccessResponse.ok(diaryResponse));
     }
 }

@@ -13,16 +13,9 @@ public class DiaryRecordRequest {
     @NotNull(message = "회원 Id를 함께 보내주세요")
     private Long memberId;
 
-    private String imageUrl; // 이미지 URL
+    // 이미지 url 삭제
 
     private String content; // 본문
 
     private String song; // 노래
-
-    public DiaryRecordRequest(Long memberId, String content, String song) {
-        this.memberId = memberId;
-        this.content = content;
-        this.song = song;
-    }
-
 }
