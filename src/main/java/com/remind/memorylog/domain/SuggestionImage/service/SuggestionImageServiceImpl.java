@@ -66,6 +66,8 @@ public class SuggestionImageServiceImpl implements SuggestionImageService {
         }
 
         // 응답 반환
-        return new SuggestionImageUploadResponse(uploadedUrls);
+        return new SuggestionImageUploadResponse(
+                suggestion.getSuggestionId(),
+                uploadedUrls);
     }
 }

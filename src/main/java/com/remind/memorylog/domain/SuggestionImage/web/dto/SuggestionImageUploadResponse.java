@@ -8,5 +8,6 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class SuggestionImageUploadResponse {
+    private Long suggestionId;
     private List<String> imageUrls;
 }
