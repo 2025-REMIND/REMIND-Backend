@@ -21,6 +21,13 @@ public class Suggestion extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    // 오늘의 제안 성공 여부
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private SuggestionStatus status;
+
+    // 보관함 저장 여부
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private SuggestionArchiveStatus archiveStatus;
 }
