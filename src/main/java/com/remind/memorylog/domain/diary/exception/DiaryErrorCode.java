@@ -8,8 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum DiaryErrorCode implements BaseResponseCode {
 
-    IMAGE_UPLOAD_FAILED("DIARY_500_1", 500, "이미지 업로드에 실패했습니다."),
-    MEMBER_NOT_FOUND("DIARY_404_1", 404, "해당 회원을 찾을 수 없습니다.");
+    IMAGE_UPLOAD_FAILED("DIARY_500_1", 500, "이미지 업로드에 실패했습니다.");
 
     private final String code;
     private final int httpStatus;
