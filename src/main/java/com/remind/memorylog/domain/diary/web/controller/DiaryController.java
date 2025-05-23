@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
 
 import java.io.IOException;
 
@@ -32,5 +33,12 @@ public class DiaryController {
         DiaryRecordResponse diaryResponse = diaryService.recordMemory(diaryRecordRequest, image);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(SuccessResponse.ok(diaryResponse));
+    }
+
+    // 기억 조회
+    @GetMapping("/recent/{memberId}")
+    public ResponseEntity<SuccessResponse<?>> getRecentDiary(@PathVariable Long memberId) {
+        List<DiaryRecordResponse> recentDiaries = diaryService.getRecentDiaries(memberId);
+        return ResponseEntity.status(HttpStatus.OK).body(SuccessResponse.ok(recentDiaries));
     }
 }

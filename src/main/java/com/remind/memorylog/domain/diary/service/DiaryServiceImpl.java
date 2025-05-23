@@ -13,8 +13,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import com.remind.memorylog.domain.diary.web.dto.DiaryRecordResponse;
 import org.springframework.web.multipart.MultipartFile;
+import com.remind.memorylog.domain.diary.exception.MemberNotFoundException;
+
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -30,7 +34,7 @@ public class DiaryServiceImpl implements DiaryService {
 
         // 회원 존재 확인
         Member member = memberRepository.findById(diaryRequest.getMemberId())
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(MemberNotFoundException::new);
 
         String imageUrl = null;
         try {
@@ -64,5 +68,28 @@ public class DiaryServiceImpl implements DiaryService {
         );
 
 
+    }
+
+    @Transactional
+    @Override
+    public List<DiaryRecordResponse> getRecentDiaries(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(MemberNotFoundException::new);
+
+        List<Diary> diaries = diaryRepository.findTop10ByMemberMemberIdOrderByCreatedAtDesc(memberId);
+
+        List<DiaryRecordResponse> responses = new ArrayList<>();
+
+        for (Diary diary : diaries) {
+            DiaryRecordResponse response = new DiaryRecordResponse(
+                    diary.getDiaryId(),
+                    diary.getMember().getMemberId(),
+                    diary.getContent(),
+                    diary.getSong(),
+                    diary.getImageUrl()
+            );
+            responses.add(response);
+        }
+        return responses;
     }
 }
