@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import com.remind.memorylog.domain.diary.web.dto.DiaryRecordResponse;
 import org.springframework.web.multipart.MultipartFile;
-import com.remind.memorylog.domain.diary.exception.MemberNotFoundException;
 
 
 import java.io.IOException;
@@ -34,7 +33,7 @@ public class DiaryServiceImpl implements DiaryService {
 
         // 회원 존재 확인
         Member member = memberRepository.findById(diaryRequest.getMemberId())
-                .orElseThrow(MemberNotFoundException::new);
+                .orElseThrow(UserNotFoundException::new);
 
         String imageUrl = null;
         try {
@@ -74,7 +73,7 @@ public class DiaryServiceImpl implements DiaryService {
     @Override
     public List<DiaryRecordResponse> getRecentDiaries(Long memberId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(MemberNotFoundException::new);
+                .orElseThrow(UserNotFoundException::new);
 
         List<Diary> diaries = diaryRepository.findTop10ByMemberMemberIdOrderByCreatedAtDesc(memberId);
 
