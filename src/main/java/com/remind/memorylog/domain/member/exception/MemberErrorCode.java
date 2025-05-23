@@ -7,16 +7,10 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum MemberErrorCode implements BaseResponseCode {
-
-    // 회원가입
-    USER_ALREADY_EXIST_409("SIGNUP_409_1", 409, "아이디가 중복됩니다."),
-    USER_ID_PASSWORD_SAME("SIGNUP_400_6", 400, "아이디와 비밀번호는 동일할 수 없습니다."),
-
-
-    // 로그인
-    USER_NOT_FOUND("SIGNIN_400_1", 400, "아이디가 일치하지 않습니다."),
+    MEMBER_ALREADY_EXIST_409("SIGNUP_409_1", 409, "이미 존재하는 회원입니다."),
+    MEMBER_ID_PASSWORD_SAME("SIGNUP_400_6", 400, "아이디와 비밀번호는 동일할 수 없습니다."),
+    MEMBER_NOT_FOUND("SIGNIN_400_1", 400, "존재하지 않는 사용자입니다."),
     PASSWORD_MISMATCH("SIGNIN_400_2", 400, "비밀번호가 일치하지 않습니다.");
-
 
     private final String code;
     private final int httpStatus;
