@@ -35,6 +35,9 @@ dependencies {
 
 	// BcryptPasswordEncoder 사용하기 위한 Spring Security를 받아야 한다.
 	implementation 'org.springframework.security:spring-security-crypto'
+
+	// 이미지 저장에 필요한 s3
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 }
 
 tasks.named('test') {
