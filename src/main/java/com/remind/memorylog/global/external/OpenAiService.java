@@ -16,6 +16,9 @@ public class OpenAiService {
     private final OpenAiConfig openAiConfig;
     private final RestTemplate restTemplate;
 
+    private final String CREATE_COURSE  = "당신은 데이트 코스를 아주 잘 짜는 사람입니다. " +
+            "다음 사용자의 정보를 바탕으로 적절한 데이트 코스를 짜주세요. 그런";
+
     private static final String CHAT_URL = "https://api.openai.com/v1/chat/completions";
 
     /**
