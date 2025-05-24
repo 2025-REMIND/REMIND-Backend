@@ -7,10 +7,11 @@ import com.remind.memorylog.domain.Suggestion.entity.Suggestion;
 import com.remind.memorylog.domain.Suggestion.repository.SuggestionRepository;
 import com.remind.memorylog.domain.SuggestionArchive.entity.SuggestionArchive;
 import com.remind.memorylog.domain.SuggestionArchive.exception.AlreadyArchivedException;
-import com.remind.memorylog.domain.SuggestionArchive.exception.SuggestionArchiveNotFoundException;
 import com.remind.memorylog.domain.SuggestionArchive.repository.SuggestionArchiveRepository;
 import com.remind.memorylog.domain.SuggestionArchive.web.dto.SuggestionArchiveListResponse;
 import com.remind.memorylog.domain.SuggestionArchive.web.dto.SuggestionArchiveResponse;
+import com.remind.memorylog.domain.member.exception.UserNotFoundException;
+import com.remind.memorylog.domain.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class SuggestionArchiveServiceImpl implements SuggestionArchiveService {
 
     private final SuggestionRepository suggestionRepository;
     private final SuggestionArchiveRepository archiveRepository;
+    private final MemberRepository memberRepository;
 
     // 제안을 일정 보관함에 저장
     @Transactional
@@ -57,12 +59,12 @@ public class SuggestionArchiveServiceImpl implements SuggestionArchiveService {
     @Override
     public List<SuggestionArchiveListResponse> getArchivedSuggestions(Long memberId) {
 
-        List<SuggestionArchive> archives = archiveRepository.findBySuggestion_Member_MemberId(memberId);
-
-        // 보관된 제안이 없으면 에러
-        if (archives.isEmpty()) {
-            throw new SuggestionArchiveNotFoundException();
+        // 회원 존재 확인
+        if (!memberRepository.existsById(memberId)) {
+            throw new UserNotFoundException();
         }
+
+        List<SuggestionArchive> archives = archiveRepository.findBySuggestion_Member_MemberId(memberId);
 
         List<SuggestionArchiveListResponse> result = new ArrayList<>();
 
