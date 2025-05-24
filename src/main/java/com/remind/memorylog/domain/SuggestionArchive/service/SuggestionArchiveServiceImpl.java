@@ -7,11 +7,16 @@ import com.remind.memorylog.domain.Suggestion.entity.Suggestion;
 import com.remind.memorylog.domain.Suggestion.repository.SuggestionRepository;
 import com.remind.memorylog.domain.SuggestionArchive.entity.SuggestionArchive;
 import com.remind.memorylog.domain.SuggestionArchive.exception.AlreadyArchivedException;
+import com.remind.memorylog.domain.SuggestionArchive.exception.SuggestionArchiveNotFoundException;
 import com.remind.memorylog.domain.SuggestionArchive.repository.SuggestionArchiveRepository;
+import com.remind.memorylog.domain.SuggestionArchive.web.dto.SuggestionArchiveListResponse;
 import com.remind.memorylog.domain.SuggestionArchive.web.dto.SuggestionArchiveResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -44,5 +49,30 @@ public class SuggestionArchiveServiceImpl implements SuggestionArchiveService {
         suggestion.setArchiveStatus(SuggestionArchivedStatus.ARCHIVED);
 
         return new SuggestionArchiveResponse(suggestion.getSuggestionId());
+    }
+
+
+    // 보관함 목록 조회
+    @Transactional
+    @Override
+    public List<SuggestionArchiveListResponse> getArchivedSuggestions(Long memberId) {
+
+        List<SuggestionArchive> archives = archiveRepository.findBySuggestion_Member_MemberId(memberId);
+
+        // 보관된 제안이 없으면 에러
+        if (archives.isEmpty()) {
+            throw new SuggestionArchiveNotFoundException();
+        }
+
+        List<SuggestionArchiveListResponse> result = new ArrayList<>();
+
+        for (SuggestionArchive archive : archives) {
+            Suggestion suggestion = archive.getSuggestion();
+            result.add(new SuggestionArchiveListResponse(
+                    archive.getArchiveId(),
+                    suggestion.getSuggestionId()
+            ));
+        }
+        return result;
     }
 }
