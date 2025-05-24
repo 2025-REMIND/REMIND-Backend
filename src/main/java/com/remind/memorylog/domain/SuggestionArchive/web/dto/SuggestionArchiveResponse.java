@@ -1,4 +1,4 @@
-package com.remind.memorylog.domain.Suggestion.web.dto;
+package com.remind.memorylog.domain.SuggestionArchive.web.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

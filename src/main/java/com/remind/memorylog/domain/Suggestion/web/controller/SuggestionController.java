@@ -16,12 +16,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/suggestion")
-public class SuggestionController {
-    private final SuggestionService suggestionService;
-
-    @PostMapping("/{suggestionId}/archive")
-    public ResponseEntity<SuccessResponse<?>> archive(@PathVariable Long suggestionId) {
-        SuggestionArchiveResponse response = suggestionService.archiveSuggestion(suggestionId);
-        return ResponseEntity.ok(SuccessResponse.ok(response));
-    }
-}
+public class SuggestionController { }

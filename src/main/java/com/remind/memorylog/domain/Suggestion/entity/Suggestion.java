@@ -1,5 +1,6 @@
 package com.remind.memorylog.domain.Suggestion.entity;
 
+import com.remind.memorylog.domain.Suggestion.entity.SuggestionArchivedStatus;
 import com.remind.memorylog.domain.member.entity.Member;
 import com.remind.memorylog.global.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -29,5 +30,6 @@ public class Suggestion extends BaseEntity {
     // 보관함 저장 여부
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private SuggestionArchiveStatus archiveStatus;
+    private SuggestionArchivedStatus archiveStatus;
+
 }
