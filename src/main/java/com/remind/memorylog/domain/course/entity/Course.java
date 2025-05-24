@@ -27,14 +27,18 @@ public class Course extends BaseEntity {
 
     private String place;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CourseDetail> courseDetailList = new ArrayList<>();
+    private String description;
+
+    private String time;
 
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @OneToMany(mappedBy = "course")
+    private List<CourseDetail> courseDetails = new ArrayList<>();
+
     public void addCourseDetail(CourseDetail courseDetail) {
-        courseDetailList.add(courseDetail);
+        this.courseDetails.add(courseDetail);
         courseDetail.setCourse(this);
     }
 

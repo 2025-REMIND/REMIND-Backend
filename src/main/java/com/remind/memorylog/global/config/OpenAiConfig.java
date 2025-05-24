@@ -7,10 +7,10 @@ import org.springframework.http.MediaType;
 
 @Configuration
 public class OpenAiConfig {
-    @Value("${application.openai.api-key}")
+    @Value("${openai.api-key}")
     private String apiKey;
 
-    @Value("${application.openai.model}")
+    @Value("${openai.model}")
     private String model;
 
     public String getApiKey() {

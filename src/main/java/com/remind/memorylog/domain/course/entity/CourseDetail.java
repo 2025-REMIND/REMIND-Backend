@@ -1,6 +1,7 @@
 package com.remind.memorylog.domain.course.entity;
 
 import com.remind.memorylog.domain.course.entity.enums.Status;
+import com.remind.memorylog.domain.member.entity.Member;
 import com.remind.memorylog.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,10 +20,10 @@ public class CourseDetail extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id")
+    @JoinColumn(name = "course")
     private Course course;
 
-    private String task;
+    private String content;
 
     @Enumerated(EnumType.STRING)
     private Status status;

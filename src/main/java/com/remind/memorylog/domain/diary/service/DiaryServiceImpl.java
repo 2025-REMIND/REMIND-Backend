@@ -5,7 +5,7 @@ import com.remind.memorylog.domain.diary.exception.ImageUploadFailedException;
 import com.remind.memorylog.domain.diary.repository.DiaryRepository;
 import com.remind.memorylog.domain.diary.web.dto.DiaryRecordRequest;
 import com.remind.memorylog.domain.member.entity.Member;
-import com.remind.memorylog.domain.member.exception.UserNotFoundException;
+import com.remind.memorylog.domain.member.exception.MemberNotFoundException;
 import com.remind.memorylog.domain.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ public class DiaryServiceImpl implements DiaryService {
 
         // 회원 존재 확인
         Member member = memberRepository.findById(diaryRequest.getMemberId())
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(MemberNotFoundException::new);
 
         String imageUrl = null;
         try {
@@ -73,7 +73,7 @@ public class DiaryServiceImpl implements DiaryService {
     @Override
     public List<DiaryRecordResponse> getRecentDiaries(Long memberId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(MemberNotFoundException::new);
 
         List<Diary> diaries = diaryRepository.findTop10ByMemberMemberIdOrderByCreatedAtDesc(memberId);
 
