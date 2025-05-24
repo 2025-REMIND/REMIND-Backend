@@ -25,12 +25,12 @@ public class MemberServiceImpl implements MemberService {
 
         // 아이디 중복 검증
         if (memberRepository.existsByLoginId(signUpRequest.getId())) {
-            throw new UserAlreadyExistException();  // 네가 만든 커스텀 예외
+            throw new MemberAlreadyExistException();  // 네가 만든 커스텀 예외
         }
 
         // 비밀번호 아이디 동일여부 검증
         if(signUpRequest.getId().equals(signUpRequest.getPassword())) {
-            throw new UserIdPasswordSameException();
+            throw new MemberIdPasswordSameException();
         }
 
         // 비밀번호 암호화
@@ -56,7 +56,7 @@ public class MemberServiceImpl implements MemberService {
 
         // 1. ID 존재 여부 확인
         Member member = memberRepository.findByLoginId(signInRequest.getId())
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(MemberNotFoundException::new);
 
         // 2. 비밀번호 일치 여부 검증
         if (!passwordEncoder.matches(signInRequest.getPassword(), member.getLoginPwd())) {
