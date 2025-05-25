@@ -18,10 +18,31 @@ public class OpenAiService {
 
     private static final String CHAT_URL = "https://api.openai.com/v1/chat/completions";
 
+    public String getDateCourse(String prompt) {
+        Map<String, Object> requestBody = createRequestBody(prompt);
+        ResponseEntity<Map> response = sendRequest(requestBody);
+        return parseResponse(response);
+    }
+
     /**
-     * RequestBody 생성
+     * 텍스트로만 RequestBody 생성
      */
-    public Map<String, Object> createRequestBody(String imageUrl, String prompt){
+    public Map<String, Object> createRequestBody(String prompt) {
+        return Map.of(
+                "model", openAiConfig.getModel(),
+                "messages", List.of(
+                        Map.of(
+                                "role", "user",
+                                "content", prompt
+                        )
+                )
+        );
+    }
+
+    /**
+     * 이미지와 함께 RequestBody 생성
+     */
+    public Map<String, Object> createRequestBodyWithImg(String imageUrl, String prompt){
         return Map.of(
                 "model", openAiConfig.getModel(),
                 "messages", List.of(
