@@ -1,4 +1,4 @@
-package com.remind.memorylog.domain.course.entity.enums;
+package com.remind.memorylog.global.entity.enums;
 
 public enum Status {
     DONE, // 완료

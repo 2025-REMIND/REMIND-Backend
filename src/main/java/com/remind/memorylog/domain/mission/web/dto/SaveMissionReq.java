@@ -1,8 +1,8 @@
-package com.remind.memorylog.domain.course.web.dto;
+package com.remind.memorylog.domain.mission.web.dto;
 
 import jakarta.validation.constraints.NotNull;
 
-public record GetCourseReq(
+public record SaveMissionReq(
         @NotNull(message = "사용자 기본키는 필수입니다.")
         Long memberId
 ) {}

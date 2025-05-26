@@ -1,6 +1,7 @@
 package com.remind.memorylog.domain.course.entity;
 
-import com.remind.memorylog.domain.course.entity.enums.Status;
+import com.remind.memorylog.domain.Suggestion.entity.Suggestion;
+import com.remind.memorylog.global.entity.enums.Status;
 import com.remind.memorylog.domain.course.web.dto.CreateCourseReq;
 import com.remind.memorylog.domain.member.entity.Member;
 import com.remind.memorylog.global.entity.BaseEntity;
@@ -21,6 +22,11 @@ public class Course extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "course_id")
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "suggestion_id")
+    private Suggestion suggestion;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

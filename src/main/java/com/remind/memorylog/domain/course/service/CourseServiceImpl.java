@@ -3,7 +3,7 @@ package com.remind.memorylog.domain.course.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.remind.memorylog.domain.course.entity.Course;
 import com.remind.memorylog.domain.course.entity.CourseDetail;
-import com.remind.memorylog.domain.course.entity.enums.Status;
+import com.remind.memorylog.global.entity.enums.Status;
 import com.remind.memorylog.domain.course.exception.CourseNotFoundException;
 import com.remind.memorylog.domain.course.repository.CourseDetailRepository;
 import com.remind.memorylog.domain.course.repository.CourseRepository;
@@ -110,6 +110,7 @@ public class CourseServiceImpl implements CourseService {
      * 코스 디테일 상태 변경
      */
     @Override
+    @Transactional
     public void updateCourseDetailStatus(Long courseDetailId, UpdateCourseReq updateCourseReq){
         Long memberId = updateCourseReq.memberId();
 
@@ -117,7 +118,7 @@ public class CourseServiceImpl implements CourseService {
         Member member = memberRepository.getMemberByMemberId(memberId);
 
         // CourseDetail이 존재하지 않는다면 -> CourseDetailNotFoundException
-        CourseDetail courseDetail = courseDetailRepository.getByCourseId(courseDetailId);
+        CourseDetail courseDetail = courseDetailRepository.getByCourseDetailId(courseDetailId);
 
         // Course가 존재하지 않는다면 -> CourseNotFoundException
         Course course = courseRepository.getCourseById(courseDetail.getCourse().getId());

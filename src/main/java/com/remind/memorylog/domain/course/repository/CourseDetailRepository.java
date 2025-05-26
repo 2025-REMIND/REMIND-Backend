@@ -11,7 +11,7 @@ import java.util.List;
 public interface CourseDetailRepository extends JpaRepository<CourseDetail, Long> {
     List<CourseDetail> findByCourseId(Long courseId);
 
-    default CourseDetail getByCourseId(Long courseId) {
-        return findById(courseId).orElseThrow(CourseDetailNotFoundException::new);
+    default CourseDetail getByCourseDetailId(Long courseDetailId) {
+        return findById(courseDetailId).orElseThrow(CourseDetailNotFoundException::new);
     }
 }
