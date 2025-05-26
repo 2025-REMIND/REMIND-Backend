@@ -9,6 +9,9 @@ public interface MemberService {
     // 회원가입
     void signup(SignUpRequest signUpRequest);
 
+    // 회원가입시, 아이디 중복 확인
+    boolean isLoginIdDuplicate(String loginId);
+
     // 로그인
     SignInResponse signin(SignInRequest signInRequest);
 }

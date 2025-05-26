@@ -1,6 +1,7 @@
 package com.remind.memorylog.domain.member.web.controller;
 
 import com.remind.memorylog.domain.member.service.MemberService;
+import com.remind.memorylog.domain.member.web.dto.CheckIdRequest;
 import com.remind.memorylog.domain.member.web.dto.SignInRequest;
 import com.remind.memorylog.domain.member.web.dto.SignInResponse;
 import com.remind.memorylog.domain.member.web.dto.SignUpRequest;
@@ -9,10 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping
@@ -33,6 +31,13 @@ public class MemberController {
 
     }
 
+    // 아이디 중복 확인
+    @PostMapping("/signup/checkId")
+    public ResponseEntity<SuccessResponse<?>> checkIdDuplicate(@RequestBody CheckIdRequest checkIdRequest) {
+        boolean isDuplicate = memberService.isLoginIdDuplicate(checkIdRequest.getLoginId());
+        return ResponseEntity.status(HttpStatus.OK).body(SuccessResponse.ok(isDuplicate));
+    }
+
     // 로그인
     @PostMapping("/signin")
     public ResponseEntity<SuccessResponse<?>> signin(@RequestBody @Valid SignInRequest signInRequest) {
@@ -44,4 +49,6 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK).body(SuccessResponse.ok(signInResponse));
 
     }
+
+
 }

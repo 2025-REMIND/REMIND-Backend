@@ -25,7 +25,7 @@ public class MemberServiceImpl implements MemberService {
 
         // 아이디 중복 검증
         if (memberRepository.existsByLoginId(signUpRequest.getId())) {
-            throw new MemberAlreadyExistException();  // 네가 만든 커스텀 예외
+            throw new MemberAlreadyExistException();
         }
 
         // 비밀번호 아이디 동일여부 검증
@@ -47,7 +47,13 @@ public class MemberServiceImpl implements MemberService {
         // repository에 Member 저장 (memberRepository 사용)
         memberRepository.save(member);
 
+    }
 
+    // 회원가입시, 아이디 중복 확인
+    @Transactional
+    @Override
+    public boolean isLoginIdDuplicate(String loginId) {
+        return memberRepository.existsByLoginId(loginId);
     }
 
     @Transactional
