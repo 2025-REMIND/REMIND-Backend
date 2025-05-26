@@ -20,12 +20,16 @@ public class CourseDetail extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course")
+    @JoinColumn(name = "course_id")
     private Course course;
 
     private String content;
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    public void updateStatus() {
+        this.status = (this.status == Status.PROGRESS) ? Status.DONE : Status.PROGRESS;
+    }
 
 }

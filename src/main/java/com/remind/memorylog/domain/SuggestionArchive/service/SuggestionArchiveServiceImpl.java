@@ -10,7 +10,7 @@ import com.remind.memorylog.domain.SuggestionArchive.exception.AlreadyArchivedEx
 import com.remind.memorylog.domain.SuggestionArchive.repository.SuggestionArchiveRepository;
 import com.remind.memorylog.domain.SuggestionArchive.web.dto.SuggestionArchiveListResponse;
 import com.remind.memorylog.domain.SuggestionArchive.web.dto.SuggestionArchiveResponse;
-import com.remind.memorylog.domain.member.exception.UserNotFoundException;
+import com.remind.memorylog.domain.member.exception.MemberNotFoundException;
 import com.remind.memorylog.domain.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -61,7 +61,7 @@ public class SuggestionArchiveServiceImpl implements SuggestionArchiveService {
 
         // 회원 존재 확인
         if (!memberRepository.existsById(memberId)) {
-            throw new UserNotFoundException();
+            throw new MemberNotFoundException();
         }
 
         List<SuggestionArchive> archives = archiveRepository.findBySuggestion_Member_MemberId(memberId);
