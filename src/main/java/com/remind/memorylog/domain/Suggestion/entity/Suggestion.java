@@ -1,8 +1,10 @@
 package com.remind.memorylog.domain.Suggestion.entity;
 
 import com.remind.memorylog.domain.course.entity.Course;
+import com.remind.memorylog.domain.course.web.dto.GetCourseRes;
 import com.remind.memorylog.domain.member.entity.Member;
 import com.remind.memorylog.domain.mission.entity.Mission;
+import com.remind.memorylog.domain.mission.web.dto.GetMissionRes;
 import com.remind.memorylog.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,5 +36,22 @@ public class Suggestion extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ArchivedStatus archiveStatus;
+
+    public static Suggestion toEntity(Member member, Mission mission, Course course) {
+        return Suggestion.builder()
+                .member(member)
+                .mission(mission)
+                .course(course)
+                .archiveStatus(ArchivedStatus.NOT_ARCHIVED) // 기본 상태는 저장이 안된 상태
+                .build();
+    }
+
+    public void archiveSuggestion(){
+        this.archiveStatus = ArchivedStatus.ARCHIVED;
+    }
+    public void unArchiveSuggestion(){
+        this.archiveStatus = ArchivedStatus.NOT_ARCHIVED;
+    }
+
 
 }
