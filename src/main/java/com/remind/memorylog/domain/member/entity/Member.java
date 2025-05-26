@@ -21,4 +21,6 @@ public class Member extends BaseEntity {
     private String loginId; // 아이디
 
     private String loginPwd; // 비밀번호
+
+    private String name; // 닉네임 (리미 대화 이후로는 사용자 이름으로 변경)
 }

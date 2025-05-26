@@ -40,9 +40,8 @@ public class MemberServiceImpl implements MemberService {
         Member member = Member.builder()
                 .loginId(signUpRequest.getId())
                 .loginPwd(hashed)
+                .name(NicknameGenerator.generate())
                 .build();
-
-
 
         // repository에 Member 저장 (memberRepository 사용)
         memberRepository.save(member);
