@@ -81,7 +81,7 @@ public class MissionServiceImpl implements MissionService {
 
     @Override
     public GetMissionRes getMission(Long memberId) {
-        // 1. Member가 존재하지 않는다면 -> MemberNotFoundException
+        // Member가 존재하지 않는다면 -> MemberNotFoundException
         Member member = memberRepository.getMemberByMemberId(memberId);
 
         LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
@@ -98,6 +98,30 @@ public class MissionServiceImpl implements MissionService {
 
         // 7. 응답 생성
         return GetMissionRes.from(mission);
+    }
+
+    @Transactional
+    @Override
+    public void saveMemo(Long missionId, SaveMemoReq saveMemoReq){
+        // Member가 존재하지 않는다면 -> MemberNotFoundException
+        Member member = memberRepository.getMemberByMemberId(saveMemoReq.memberId());
+
+        // Mission이 존재하지 않는다면 -> MissionNotFoundException
+        Mission mission = missionRepository.getMissionById(missionId);
+        // 사용자의 Mission이 아니라면 -> CanNotAccessException
+        if (!mission.getMember().equals(member)) throw new CanNotAccessException();
+
+        // MissionDetail이 존재하지 않는다면 -> MissionDetailNotFoundException
+        MissionDetail missionDetail1 = missionDetailRepository.getByMissionDetailId(saveMemoReq.missionDetailId1());
+        missionDetail1.saveMemo(saveMemoReq.memo1());
+
+        // MissionDetail이 존재하지 않는다면 -> MissionDetailNotFoundException
+        MissionDetail missionDetail2 = missionDetailRepository.getByMissionDetailId(saveMemoReq.missionDetailId2());
+        missionDetail2.saveMemo(saveMemoReq.memo2());
+
+        // MissionDetail이 존재하지 않는다면 -> MissionDetailNotFoundException
+        MissionDetail missionDetail3 = missionDetailRepository.getByMissionDetailId(saveMemoReq.missionDetailId3());
+        missionDetail3.saveMemo(saveMemoReq.memo3());
     }
 
 
@@ -118,7 +142,7 @@ public class MissionServiceImpl implements MissionService {
 
         // Mission이 존재하지 않는다면 -> MissionNotFoundException
         Mission mission = missionRepository.getMissionById(missionDetail.getMission().getId());
-        // 사용자의 Course가 아니라면 -> CanNotAccessException
+        // 사용자의 Mission이 아니라면 -> CanNotAccessException
         if (!mission.getMember().equals(member)) throw new CanNotAccessException();
 
         missionDetail.updateStatus();

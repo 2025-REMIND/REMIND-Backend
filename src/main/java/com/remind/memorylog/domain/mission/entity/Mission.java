@@ -54,6 +54,7 @@ public class Mission extends BaseEntity {
                 .member(member)
                 .title(req.title())
                 .description(req.description())
+                .missionDetails(new ArrayList<>())
                 .status(Status.PROGRESS)
                 .build();
 

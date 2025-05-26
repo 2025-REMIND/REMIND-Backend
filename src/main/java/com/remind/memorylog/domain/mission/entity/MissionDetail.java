@@ -32,4 +32,7 @@ public class MissionDetail extends BaseEntity {
     public void updateStatus() {
         this.status = (this.status == Status.PROGRESS) ? Status.DONE : Status.PROGRESS;
     }
+    public void saveMemo(String memo){
+        this.memo = memo;
+    }
 }
