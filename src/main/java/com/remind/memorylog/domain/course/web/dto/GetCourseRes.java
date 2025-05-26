@@ -1,7 +1,7 @@
 package com.remind.memorylog.domain.course.web.dto;
 
 import com.remind.memorylog.domain.course.entity.Course;
-import com.remind.memorylog.domain.course.entity.enums.Status;
+import com.remind.memorylog.global.entity.enums.Status;
 
 public record GetCourseRes(
         Long courseId,

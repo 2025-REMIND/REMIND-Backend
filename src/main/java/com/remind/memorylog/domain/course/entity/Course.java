@@ -1,6 +1,7 @@
 package com.remind.memorylog.domain.course.entity;
 
-import com.remind.memorylog.domain.course.entity.enums.Status;
+import com.remind.memorylog.domain.Suggestion.entity.Suggestion;
+import com.remind.memorylog.global.entity.enums.Status;
 import com.remind.memorylog.domain.course.web.dto.CreateCourseReq;
 import com.remind.memorylog.domain.member.entity.Member;
 import com.remind.memorylog.global.entity.BaseEntity;

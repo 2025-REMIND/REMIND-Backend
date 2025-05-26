@@ -3,7 +3,6 @@ package com.remind.memorylog.global.external;
 import com.remind.memorylog.domain.chat.entity.Chat;
 import com.remind.memorylog.domain.chat.entity.enums.Sender;
 import com.remind.memorylog.domain.chat.repository.ChatRepository;
-import com.remind.memorylog.domain.chat.service.ChatService;
 import com.remind.memorylog.domain.chat.web.dto.GetChatRes;
 import com.remind.memorylog.domain.chat.web.dto.SendChatReq;
 import com.remind.memorylog.domain.member.entity.Member;
@@ -28,6 +27,19 @@ public class OpenAiService {
     private final ChatRepository chatRepository;
 
     private static final String CHAT_URL = "https://api.openai.com/v1/chat/completions";
+
+    private static final String MISSION_PROMPT = "당신은 연인과의 미션을 생성하는 전문가입니다. " +
+            "사용자와의 대화 내역을 참고하여 사용자에게 맞는 미션을 제안해주세요. " +
+            "응답은 반드시 다음 JSON 형식으로 제공해주세요:\n\n" +
+            "{\n" +
+            "  \"title\": \"미션의 제목\",\n" +
+            "  \"description\": \"미션 간단 설명\",\n" +
+            "  \"mission1\": \"첫 번째 상세 미션\",\n" +
+            "  \"mission2\": \"두 번째 상세 미션\",\n" +
+            "  \"mission3\": \"세 번째 상세 미션\"\n" +
+            "}\n\n" +
+            "절대 설명식 문장 없이 JSON만 응답해주세요." +
+            "다음은 사용자와 당신의 대화 내역입니다 : ";
 
     private static final String COURSE_PROMPT = "당신은 데이트 코스를 기획하는 전문가입니다. " +
             "사용자와의 대화 내역을 참고하여 상황에 맞는 데이트 코스를 제안해주세요. " +
@@ -70,6 +82,31 @@ public class OpenAiService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 미션 생성
+     */
+    public String createMission(Long memberId){
+        List<GetChatRes> chatResList = getChatList(memberId);
+
+        StringBuilder chatHistory = new StringBuilder();
+
+        for (GetChatRes chat : chatResList) {
+            if (chat.sender() == Sender.USER) {
+                chatHistory.append("User: ").append(chat.content()).append("\n");
+            } else if (chat.sender() == Sender.RIMI) {
+                chatHistory.append("리미: ").append(chat.content()).append("\n");
+            }
+        }
+
+        String prompt = MISSION_PROMPT + chatHistory;
+        Map<String, Object> requestBody = createRequestBody(prompt);
+        ResponseEntity<Map> response = sendRequest(requestBody);
+        return parseResponse(response);
+    }
+
+    /**
+     * 데이트코스 생성
+     */
     public String createCourse(Long memberId){
         List<GetChatRes> chatResList = getChatList(memberId);
 
@@ -90,7 +127,7 @@ public class OpenAiService {
     }
 
     /**
-     * 사용자의 질문의 답변
+     * 사용자의 질문에 답변
      */
     public String getAnswer(SendChatReq sendChatReq){
         List<GetChatRes> chatResList = getChatList(sendChatReq.memberId());
