@@ -1,6 +1,7 @@
 package com.remind.memorylog.domain.chat.entity;
 
 import com.remind.memorylog.domain.chat.entity.enums.Sender;
+import com.remind.memorylog.domain.chat.web.dto.SendChatReq;
 import com.remind.memorylog.domain.member.entity.Member;
 import com.remind.memorylog.global.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -24,4 +25,12 @@ public class Chat extends BaseEntity {
     private String content;
 
     private Sender sender;
+
+    public static Chat toEntity(String content, Member member, Sender sender) {
+        return Chat.builder()
+                .content(content)
+                .member(member)
+                .sender(sender)
+                .build();
+    }
 }

@@ -6,10 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
-    Course findCourseByIdAndCreatedAtBetween(Long id, LocalDateTime start, LocalDateTime end);
+    Optional<Course> findByMember_MemberIdAndCreatedAtBetween(Long memberId, LocalDateTime start, LocalDateTime end);
 
     default Course getCourseById(Long courseId) {
         return findById(courseId).orElseThrow(CourseNotFoundException::new);

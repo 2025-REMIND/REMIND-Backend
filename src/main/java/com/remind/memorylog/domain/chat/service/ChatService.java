@@ -1,9 +1,8 @@
 package com.remind.memorylog.domain.chat.service;
 
-import com.remind.memorylog.domain.chat.web.dto.GetChatRes;
-
-import java.util.List;
+import com.remind.memorylog.domain.chat.web.dto.SendChatReq;
+import com.remind.memorylog.domain.chat.web.dto.SendChatRes;
 
 public interface ChatService {
-    List<GetChatRes> getChatList(Long memberId);
+    SendChatRes sendChat(SendChatReq sendChatReq);
 }

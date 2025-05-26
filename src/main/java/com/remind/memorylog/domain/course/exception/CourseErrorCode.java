@@ -9,7 +9,8 @@ import static com.remind.memorylog.global.constant.StaticValue.NOT_FOUND;
 @Getter
 @AllArgsConstructor
 public enum CourseErrorCode implements BaseResponseCode {
-    COURSE_NOT_FOUND_404("COURSE_NOT_FOUND_404", NOT_FOUND,"존재하지 않는 데이트 코스입니다.");
+    COURSE_NOT_FOUND_404("COURSE_NOT_FOUND_404", NOT_FOUND,"존재하지 않는 데이트 코스입니다."),
+    COURSE_DETAIL_NOT_FOUND_404("COURSE_DETAIL_NOT_FOUND_404", NOT_FOUND,"존재하지 않는 데이트 코스 내역입니다.");
 
     private final String code;
     private final int httpStatus;
