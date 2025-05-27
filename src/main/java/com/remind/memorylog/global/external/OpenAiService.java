@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -59,6 +60,8 @@ public class OpenAiService {
     private static final String CHAT_PROMPT="당신은 ‘리미’라는 이름을 가진 연애 감정 기록 전문가입니다.  \n" +
             "사용자의 말투, 감정, 상황을 잘 파악해서 자연스럽고 친근하게 정보를 수집해야 합니다.  \n" +
             "친구처럼 부드럽고 공감하는 반말로 대화해주세요.  \n" +
+            "단, 물어봤던 내용을 또 다시 질문하지 마세요. \n" +
+            "만약 사진이 있다면, 사진을 참고하여 대화하세요. \n" +
             "사용자가 연애 관련 고민이나 상황을 이야기하면, 아래 항목을 순서대로 물어보면서 대화를 이어가세요:  \n" +
             "1. 안녕! 나는 너희 둘의 기억을 함께 모아줄 감정 기록 AI, 리미야! 오늘 우리만의 특별한 대화를 시작해볼까? 먼저 너의 이름을 알려줘!  \n" +
             "2. 고마워! 그럼 이번엔 너의 연인 이름도 알려줘. 둘만의 이야기를 더 따뜻하게 기록하고 싶거든.  \n" +
@@ -73,7 +76,7 @@ public class OpenAiService {
             "아래는 사용자와 너의 대화 내역입니다.  \n" +
             "※ 참고: 헤당 대화내역에는 사용자의 이름을 묻는 부분이 포함되어 있지 않습니다.  \n" +
             "하지만 AI는 대화의 가장 첫 부분에서 이미 사용자의 이름을 물어봤다고 간주하고,  \n" +
-            "그 이후의 대화를 자연스럽게 이어가 주세요." +
+            "그 이후의 대화를 자연스럽게 이어가 주세요. 오직 답변만 보내주면 됩니다. '리미:' 이런 표시를 넣지 마세요." +
 
             "사용자의 마지막 대화에 답해주세요:  \n";
 
@@ -138,7 +141,7 @@ public class OpenAiService {
     /**
      * 사용자의 질문에 답변
      */
-    public String getAnswer(SendChatReq sendChatReq){
+    public String getAnswer(SendChatReq sendChatReq, String imgUrl){
         List<GetChatRes> chatResList = getChatList(sendChatReq.memberId());
 
         StringBuilder chatHistory = new StringBuilder();
@@ -150,10 +153,17 @@ public class OpenAiService {
                 chatHistory.append("리미: ").append(chat.content()).append("\n");
             }
         }
-        chatHistory.append("User: ").append(sendChatReq.content());
 
-        String prompt = CHAT_PROMPT + sendChatReq.content();
-        Map<String, Object> requestBody = createRequestBody(prompt);
+        String prompt = CHAT_PROMPT + chatHistory.toString();
+        System.out.println("프롬프트" + prompt);
+
+        Map<String, Object> requestBody;
+        if (imgUrl == null || imgUrl.isEmpty()) {
+            requestBody = createRequestBody(prompt);
+        } else {
+            requestBody = createRequestBodyWithImg(imgUrl, prompt);
+        }
+
         ResponseEntity<Map> response = sendRequest(requestBody);
         return parseResponse(response);
     }
