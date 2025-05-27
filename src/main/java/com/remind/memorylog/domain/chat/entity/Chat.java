@@ -24,6 +24,7 @@ public class Chat extends BaseEntity {
 
     private String content;
 
+    @Enumerated(EnumType.STRING)
     private Sender sender;
 
     public static Chat toEntity(String content, Member member, Sender sender) {
