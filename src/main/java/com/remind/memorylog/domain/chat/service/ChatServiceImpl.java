@@ -27,9 +27,11 @@ public class ChatServiceImpl implements ChatService {
         Member member = memberRepository.getMemberByMemberId(sendChatReq.memberId());
 
         Chat userChat = Chat.toEntity(sendChatReq.content(), member, Sender.USER);
-        chatRepository.save(userChat);
 
         String answer = openAiService.getAnswer(sendChatReq);
+
+        chatRepository.save(userChat);
+
         Chat rimiChat = Chat.toEntity(answer, member, Sender.RIMI);
         chatRepository.save(rimiChat);
 
