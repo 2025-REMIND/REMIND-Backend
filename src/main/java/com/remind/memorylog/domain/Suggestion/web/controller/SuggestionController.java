@@ -2,6 +2,7 @@ package com.remind.memorylog.domain.Suggestion.web.controller;
 
 import com.remind.memorylog.domain.Suggestion.service.SuggestionService;
 import com.remind.memorylog.domain.Suggestion.web.dto.ArchiveSuggestionReq;
+import com.remind.memorylog.domain.Suggestion.web.dto.GetArchivePageRes;
 import com.remind.memorylog.domain.Suggestion.web.dto.GetTodaySuggestionRes;
 import com.remind.memorylog.global.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
@@ -34,5 +35,13 @@ public class SuggestionController {
                                                                 @RequestBody ArchiveSuggestionReq archiveSuggestionReq) {
         suggestionService.unArchiveSuggestion(archiveSuggestionReq, suggestionId);
         return ResponseEntity.ok(SuccessResponse.empty());
+    }
+
+    @GetMapping("/{memberId}")
+    public ResponseEntity<SuccessResponse<GetArchivePageRes>> getArchivePage(
+            @PathVariable Long memberId,
+            @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "1") int size) {
+        GetArchivePageRes response = suggestionService.getArchiveSuggestion(memberId, page, size);
+        return ResponseEntity.ok(SuccessResponse.ok(response));
     }
 }
