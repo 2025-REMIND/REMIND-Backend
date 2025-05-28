@@ -119,6 +119,7 @@ public class CourseServiceImpl implements CourseService {
 
         // CourseDetail이 존재하지 않는다면 -> CourseDetailNotFoundException
         CourseDetail courseDetail = courseDetailRepository.getByCourseDetailId(courseDetailId);
+        System.out.println("Current status: " + courseDetail.getStatus());
 
         // Course가 존재하지 않는다면 -> CourseNotFoundException
         Course course = courseRepository.getCourseById(courseDetail.getCourse().getId());
@@ -126,6 +127,7 @@ public class CourseServiceImpl implements CourseService {
         if(!course.getMember().equals(member)) throw new CanNotAccessException();
 
         courseDetail.updateStatus();
+        System.out.println("Updated status: " + courseDetail.getStatus());
         courseDetailRepository.save(courseDetail);
 
         List<CourseDetail> courseDetailList = courseDetailRepository.findByCourseId(courseDetail.getCourse().getId());

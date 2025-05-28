@@ -1,13 +1,18 @@
 package com.remind.memorylog.domain.Suggestion.entity;
 
+import com.remind.memorylog.domain.SuggestionImage.Entity.SuggestionImage;
 import com.remind.memorylog.domain.course.entity.Course;
 import com.remind.memorylog.domain.course.web.dto.GetCourseRes;
 import com.remind.memorylog.domain.member.entity.Member;
 import com.remind.memorylog.domain.mission.entity.Mission;
 import com.remind.memorylog.domain.mission.web.dto.GetMissionRes;
 import com.remind.memorylog.global.entity.BaseEntity;
+import com.remind.memorylog.global.entity.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -36,6 +41,10 @@ public class Suggestion extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ArchivedStatus archiveStatus;
+
+    @OneToMany(mappedBy = "suggestion", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<SuggestionImage> suggestionImages = new ArrayList<>();
+
 
     public static Suggestion toEntity(Member member, Mission mission, Course course) {
         return Suggestion.builder()
