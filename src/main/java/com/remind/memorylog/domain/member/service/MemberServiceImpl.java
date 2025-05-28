@@ -7,6 +7,7 @@ import com.remind.memorylog.domain.member.repository.MemberRepository;
 import com.remind.memorylog.domain.member.web.dto.SignInRequest;
 import com.remind.memorylog.domain.member.web.dto.SignInResponse;
 import com.remind.memorylog.domain.member.web.dto.SignUpRequest;
+import com.remind.memorylog.domain.member.web.dto.SignUpResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class MemberServiceImpl implements MemberService {
     // 회원 가입
     @Transactional
     @Override
-    public void signup(SignUpRequest signUpRequest) {
+    public SignUpResponse signup(SignUpRequest signUpRequest) {
 
         // 아이디 중복 검증
         if (memberRepository.existsByLoginId(signUpRequest.getId())) {
@@ -36,16 +37,19 @@ public class MemberServiceImpl implements MemberService {
         // 비밀번호 암호화
         String hashed = passwordEncoder.encode(signUpRequest.getPassword());
 
+        // 닉네임 생성
+        String nickname = NicknameGenerator.generate();
+
         // Member Entity 생성
         Member member = Member.builder()
                 .loginId(signUpRequest.getId())
                 .loginPwd(hashed)
-                .name(NicknameGenerator.generate())
+                .name(nickname)
                 .build();
 
         // repository에 Member 저장 (memberRepository 사용)
         memberRepository.save(member);
-
+        return new SignUpResponse(nickname);
     }
 
     // 회원가입시, 아이디 중복 확인
