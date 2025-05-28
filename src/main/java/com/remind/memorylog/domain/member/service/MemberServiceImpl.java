@@ -59,6 +59,7 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.existsByLoginId(loginId);
     }
 
+    // 로그인
     @Transactional
     @Override
     public SignInResponse signin(SignInRequest signInRequest) {
@@ -73,7 +74,7 @@ public class MemberServiceImpl implements MemberService {
         }
 
         // 3. 사용자 기본키 반환
-        return new SignInResponse(member.getMemberId());
+        return new SignInResponse(member.getMemberId(), member.getName());
 
     }
 }
